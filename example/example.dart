@@ -1,6 +1,5 @@
 import 'dart:math';
 import 'package:finances/finance.dart';
-import 'package:finances/src/base/cumulate_value.dart';
 
 void main() {
   // Returns
@@ -21,7 +20,7 @@ void main() {
   print(rstream.cumulativeReturn);
 
   // Cumulative value
-  final cashflows = List.generate(48, (_) => 1.0);
-  final finalValue = cumulateValueFinal(cashflows: cashflows, returns: rstream);
-  print(finalValue);
+  //final cashflows = List.generate(48, (_) => 1.0);
+  //final finalValue = cumulateValueFinal(cashflows: cashflows, returns: rstream);
+  //print(finalValue);
 }

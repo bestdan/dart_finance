@@ -16,7 +16,6 @@ See `example/example.dart` for some running examples.
 ```dart
 import 'dart:math';
 import 'package:finances/finance.dart';
-import 'package:finances/src/base/cumulate_value.dart';
 
 void main() {
   // Returns
