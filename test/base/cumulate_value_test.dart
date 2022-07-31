@@ -1,4 +1,4 @@
-import 'package:finances/src/base/project_value.dart';
+import 'package:finances/src/base/cumulate_value.dart';
 import 'package:test/test.dart';
 import 'package:finances/finance.dart';
 
@@ -11,8 +11,10 @@ void main() {
     test('cumulates correctly', () {
       final rstream_small =
           ReturnStream.fromDoubles(List.generate(periods, (_) => 0.0));
-      expect(projectValueFinal(returns: rstream_small), 0.0);
-    }); 
+      expect(
+          cumulateValueFinal(cashflows: cashflows_one, returns: rstream_small),
+          periods);
+    });
   });
 
   group('With constant cashflow', () {
@@ -20,7 +22,9 @@ void main() {
       final rstream_small =
           ReturnStream.fromDoubles(List.generate(periods, (_) => 0.0));
 
-      expect(projectValueFinal(cashflows: cashflows_one, returns: rstream_small), periods);
+      expect(
+          cumulateValueFinal(cashflows: cashflows_one, returns: rstream_small),
+          periods);
     });
   });
 }

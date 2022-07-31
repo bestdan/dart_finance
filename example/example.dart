@@ -1,20 +1,27 @@
 import 'dart:math';
 import 'package:finances/finance.dart';
-import 'package:finances/src/base/project_value.dart';
+import 'package:finances/src/base/cumulate_value.dart';
 
 void main() {
-  final cashflows = List.generate(48, (_) => 1.0);
+  // Returns
+  // Daily 1% return scaled to annual
+  final dailyReturn = Return(nreturn: 0.01);
+  print(dailyReturn.scale(newPeriod: Duration(days: 252)));
 
+  // Annual return, scaled to daily
+  final annualReturn = Return(nreturn: 0.05, period: Duration(days: 252));
+  print(annualReturn.scale(newPeriod: Duration(days: 1)));
+
+  // ReturnStream
   final rng = Random();
   final rstream = ReturnStream.fromDoubles(
       List.generate(48, (_) => (rng.nextDouble() - 0.4 / 5)));
-  
-  final finalValue = projectValueFinal(cashflows: cashflows, returns: rstream);
-  print(finalValue); 
 
+  // Show cumulative return
+  print(rstream.cumulativeReturn);
 
-  final rstream_small = ReturnStream.fromDoubles(
-      List.generate(48, (_) => 0.01));
-  
-  print(rstream_small.cumulate(cashflows: cashflows)); 
+  // Cumulative value
+  final cashflows = List.generate(48, (_) => 1.0);
+  final finalValue = cumulateValueFinal(cashflows: cashflows, returns: rstream);
+  print(finalValue);
 }
