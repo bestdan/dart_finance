@@ -16,4 +16,11 @@ class ReturnStream {
     return ReturnStream(nreturns);
   }
 
+  Return get cumulativeReturn {
+    final totalReturn =
+        nreturns.fold(1.0, (double p, Return c) => (p * (1 + c.nreturn))) - 1.0;
+    final totalPeriod = nreturns.fold(
+        Duration(days: 0), (Duration p, Return c) => (p + c.period));
+    return Return(nreturn: totalReturn, period: totalPeriod);
+  }
 }
