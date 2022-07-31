@@ -1,7 +1,7 @@
 # Finances
 
 [![experimental](http://badges.github.io/stability-badges/dist/experimental.svg)](http://github.com/badges/stability-badges)
-![test status](https://github.com/bestdan/dart_finance/actions/workflows/ci/badge.svg)
+![test status](https://github.com/bestdan/dart_finance/actions/workflows/ci.yaml/badge.svg)
 
 An opinionated, strongly-typed package for common financial types and tasks. 
 
