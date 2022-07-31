@@ -5,8 +5,5 @@
 
 ---
 
-* **BREAKING** Removed `Shelf` prefix from all classes.
-* **BREAKING** `Response` has drastically different constructors.
-* *NEW!* `Response` now accepts a body of either `String` or
-  `Stream<List<int>>`.
-* *NEW!* `Response` now exposes `encoding` and `mimeType`.
+* **BREAKING**:  `XYZ` has changed
+* *NEW!* Check out  `Stream<List<Return>>`.
