@@ -1,0 +1,11 @@
+name: finances
+version: 0.0.1
+description: Tools for operating on financial data
+repository: https://github.com/bestdan/dart-finance
+
+environment:
+  sdk: ">=2.16.0 <3.0.5"
+
+dev_dependencies:
+  lints: ^1.0.0
+  test: ^1.16.0
