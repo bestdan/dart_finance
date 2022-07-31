@@ -1,5 +1,4 @@
 import 'dart:core';
-import 'dart:math';
 
 ///
 enum ReturnType { arithmetic, logarithmic }
@@ -14,15 +13,3 @@ class Return {
   
 }
 
-class ReturnStream {
-  final List<Return> nreturns; 
-  
-  ReturnStream(this.nreturns); 
-
-  double compound({required List<double> cashflows}) {
-    return List<int>.generate(cashflows.length, (int index) => index)
-        .map((int index) => cashflows[index] / pow(1 + nreturns[index].nreturn, index))
-        .fold(0, (double p, double c) => p + c);
-  }
-
-}
