@@ -11,6 +11,9 @@ enum ReturnStreamType { incremental, cumulative }
 /// Getter [cumulativeReturnStream] converts from `incremental` to `cumulative`.
 /// Getter [incrementalReturnStream] converts from `cumulative` to `incremental`.
 /// If you have a series of balances/values, you can convert them to `incremental` returns.
+///
+/// `cumulativeReturn` returns a single [Return] variable for the whole period,
+/// where [cumulativeReturnStream] returns the stream of cumulativ values
 class ReturnStream {
   final List<Return> nreturns;
   final ReturnStreamType type;
@@ -66,7 +69,6 @@ class ReturnStream {
   }
 
   ReturnStream get incrementalReturnStream {
-    // #TODO: Needs to do duration as well
     switch (type) {
       case ReturnStreamType.incremental:
         return this;
