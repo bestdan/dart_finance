@@ -14,7 +14,9 @@ void main() {
   // ReturnStream
   final rng = Random();
   final rstream = ReturnStream.fromDoubles(
-      List.generate(48, (_) => (rng.nextDouble() - 0.4 / 5)));
+    List.generate(48, (_) => (rng.nextDouble() - 0.4 / 5)),
+    ReturnStreamType.incremental,
+  );
 
   // Show cumulative return
   print(rstream.cumulativeReturn);

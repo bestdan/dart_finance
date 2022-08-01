@@ -20,7 +20,7 @@ class Return {
     required this.nreturn,
     this.returnType = ReturnType.arithmetic,
     this.period = oneday,
-  });
+  }) : assert(nreturn >= -1.0);
 
   Return scale({required Duration newPeriod}) {
     final newReturn =
