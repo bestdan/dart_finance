@@ -1,13 +1,16 @@
 import 'package:finances/src/base/return.dart';
 
+/// [ReturnStreamType] indicates whethere the return stream is `incremental` with
+/// [Return]s in the `0.05` format and representing only their incremental effect
+/// or `cumulative` in the `1.05` format, representing all cumulative returns or balances.
 enum ReturnStreamType { incremental, cumulative }
 
-/// [ReturnStream] is a vector of returns which commong aggregating
-/// operations can be performed on.
+/// [ReturnStream] is a vector of [Return]s which commong aggregating
+/// operations such as compounding and averaging can be performed on.
 ///
-/// [cashflows] is a list of cashflows concurrent with the returns,
-/// assuming investment before the return occurs.
-/// If no cashflows are supplied, pure cumulative returns are supplied.
+/// Getter [cumulativeReturnStream] converts from `incremental` to `cumulative`.
+/// Getter [incrementalReturnStream] converts from `cumulative` to `incremental`.
+/// If you have a series of balances/values, you can convert them to `incremental` returns.
 class ReturnStream {
   final List<Return> nreturns;
   final ReturnStreamType type;
@@ -40,7 +43,6 @@ class ReturnStream {
   }
 
   ReturnStream get cumulativeReturnStream {
-    // #TODO: Needs to do duration as well
     switch (type) {
       case ReturnStreamType.cumulative:
         return this;
