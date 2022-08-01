@@ -10,15 +10,16 @@ enum ReturnType { arithmetic, logarithmic }
 ///
 /// [nreturn] is the numerical return, with a 5\% return input as `0.05`.
 /// [period] (default `1 day`): the time period the [nreturn] occurs over.
-/// [isLogarithmic] (default `false`): the calculation method of the return.
+/// [isLog] (default `false`): the calculation method of the return.
+/// Logarithmic if true, else Arithmetic.
 class Return {
   final double nreturn;
   final Duration period;
-  final bool isLogarithmic;
+  final bool isLog;
 
   Return({
     required this.nreturn,
-    this.isLogarithmic = false,
+    this.isLog = false,
     this.period = oneday,
   });
 
@@ -27,18 +28,18 @@ class Return {
                 newPeriod.inSeconds / period.inSeconds)
             .toDouble()) -
         1.0;
-    return Return(nreturn: newReturn, period: newPeriod, isLogarithmic: false);
+    return Return(nreturn: newReturn, period: newPeriod, isLog: false);
   }
 
-  Return get toLogarithmic {
-    return this.isLogarithmic
+  Return get toLog {
+    return this.isLog
         ? this
-        : Return(nreturn: log(1.0 + this.nreturn), isLogarithmic: true);
+        : Return(nreturn: log(1.0 + this.nreturn), isLog: true);
   }
 
   Return get toArithmetic {
-    return this.isLogarithmic
-        ? Return(nreturn: exp(this.nreturn) - 1.0, isLogarithmic: false)
+    return this.isLog
+        ? Return(nreturn: exp(this.nreturn) - 1.0, isLog: false)
         : this;
   }
 }
