@@ -4,8 +4,8 @@ import 'package:finances/finance.dart';
 void main() {
   const int tradingDays = 252;
   final ReturnZero = Return(nreturn: 0, period: Duration(days: 252));
-  group("Return", () {
-    group("scale", () {
+  group("Return: ", () {
+    group("scale: ", () {
       test('Zero returns', () {
         expect(ReturnZero.scale(newPeriod: Duration(days: 127)).nreturn, 0.0);
         expect(ReturnZero.scale(newPeriod: Duration(days: 500)).nreturn, 0.0);
