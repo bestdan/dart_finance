@@ -71,16 +71,23 @@ class ReturnStream {
       case ReturnStreamType.cumulative:
         {
           // #TODO: could be faster?
-          var totalReturn = 0.0;
-          var totalPeriod = Duration(days: 0);
+          var thisReturn = 0.0;
+          var thisPeriod = Duration.zero;
           var result = List<Return>.generate(
               nreturns.length, (int x) => Return(nreturn: x.toDouble()),
               growable: false);
 
           for (var i = 0; i < nreturns.length; i++) {
-            totalReturn = nreturns[i].nreturn - totalReturn;
-            totalPeriod = nreturns[i].period - totalPeriod;
-            result[i] = Return(nreturn: totalReturn, period: totalPeriod);
+            if (i == 0) {
+              thisReturn = nreturns[i].nreturn - 1.0;
+              thisPeriod = nreturns[i].period;
+            } else {
+              thisReturn =
+                  (nreturns[i].nreturn / nreturns[(i - 1)].nreturn) - 1.0;
+              thisPeriod = nreturns[i].period - nreturns[(i - 1)].period;
+            }
+
+            result[i] = Return(nreturn: thisReturn, period: thisPeriod);
           }
           return ReturnStream(result, ReturnStreamType.incremental);
         }

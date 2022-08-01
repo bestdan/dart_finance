@@ -8,24 +8,17 @@ void main() {
 
   final cashflows_one = List.generate(periods, (_) => 1.0);
 
-  group('With no cashflow', () {
-    test('cumulates correctly', () {
-      final rstream_small = ReturnStream.fromDoubles(
-          List.generate(periods, (_) => 0.0), ReturnStreamType.incremental);
-      expect(
-          cumulateValueFinal(cashflows: cashflows_one, returns: rstream_small),
-          periods);
-    });
-  });
+  group('ValueStream: ', () {
+    group('with constant cashflow: ', () {
+      test('zero returns, returns sum of cashflows', () {
+        final rstream_small = ReturnStream.fromDoubles(
+            List.generate(periods, (_) => 0.0), ReturnStreamType.incremental);
 
-  group('With constant cashflow', () {
-    test('returns thing', () {
-      final rstream_small = ReturnStream.fromDoubles(
-          List.generate(periods, (_) => 0.0), ReturnStreamType.incremental);
-
-      expect(
-          cumulateValueFinal(cashflows: cashflows_one, returns: rstream_small),
-          periods);
+        expect(
+            cumulateValueFinal(
+                cashflows: cashflows_one, returns: rstream_small),
+            periods);
+      });
     });
   });
 }
