@@ -78,11 +78,11 @@ jobs:
           dart test --platform vm --test-randomize-ordering-seed=random --coverage=./coverage
           dart pub global activate coverage
           dart pub global run coverage:format_coverage  --report-on=lib --lcov -o ./coverage/lcov.info -i ./coverage
-          genhtml -o ./coverage/report ./coverage/lcov.info
+          # genhtml -o ./coverage/report ./coverage/lcov.info
       - name: Coverage report
         uses: codecov/codecov-action@v3
         with:
-          directory: ./coverage/
+          directory: ./coverage/reports/
           token: ${{ secrets.CODECOV_TOKEN }} # not required for public repos
           # files: ./coverage1.xml,./coverage2.xml # optional
           #flags: unittests # optional
