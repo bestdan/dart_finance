@@ -70,6 +70,12 @@ jobs:
       - uses: dart-lang/setup-dart@v1.0
         with:
           sdk: 2.12.0
+      - id: install
+        name: Install dependencies
+        run: dart pub get
+      - name: Run VM tests
+        run: dart test --platform vm --test-randomize-ordering-seed=random --coverage
+      - name: Codecov coverage
       - uses: codecov/codecov-action@v3
         with:
           directory: ./coverage/
@@ -79,15 +85,7 @@ jobs:
           name: codecov-umbrella # optional
           fail_ci_if_error: true # optional (default = false)
           verbose: true # optional (default = false)
-      - id: install
-        name: Install dependencies
-        run: dart pub get
-      - name: Run VM tests
-        run: dart test --platform vm --test-randomize-ordering-seed=random --coverage
-      - name: codecov coverage
         run: |
           dart pub global activate coverage
-        # Format collected coverage to LCOV (only for directory "lib")
           dart pub global run coverage:format_coverage  --report-on=lib --lcov -o ./coverage/lcov.info -i ./coverage
-        # Generate LCOV report:
           genhtml -o ./coverage/report ./coverage/lcov.info
