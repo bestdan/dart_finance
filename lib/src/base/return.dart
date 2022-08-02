@@ -3,6 +3,7 @@ import 'dart:math';
 
 const oneday = Duration(days: 1);
 
+
 /// A core class for working with returns.
 class Return {
   /// The numeric return, expressed as `0.05` for a 5\% return.
@@ -10,9 +11,10 @@ class Return {
 
   /// The period over which the return occured
   final Duration period;
-
+  
   /// default `false`: the calculation method of the return.
   /// Logarithmic if true, else Arithmetic.
+
   final bool isLog;
 
   Return({
