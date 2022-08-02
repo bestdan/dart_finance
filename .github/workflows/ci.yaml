@@ -77,13 +77,13 @@ jobs:
         run: |
           dart pub global activate coverage
           dart pub global run coverage:test_with_coverage
-          echo head ./coverage/coverage.json
+          tail coverage/coverage.json
       - name: Coverage report
         uses: codecov/codecov-action@v3
         with:
           directory: ./coverage/
           token: ${{ secrets.CODECOV_TOKEN }} # not required for public repos
-          files: ./coverage/coverage.json #optional
+          files: coverage/coverage.json #optional
           #flags: unittests # optional
           name: codecov-umbrella # optional
           fail_ci_if_error: true # optional (default = false)
