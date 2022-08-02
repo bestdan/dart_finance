@@ -61,3 +61,31 @@ jobs:
       - name: Run Chrome tests
         run: dart test --platform chrome --test-randomize-ordering-seed=random
         if: always() && steps.install.outcome == 'success'
+  coverage:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+    steps: 
+      - uses: actions/checkout@v2
+      - uses: dart-lang/setup-dart@v1.0
+        with:
+          sdk: 2.15.0
+      - id: install
+        name: Install dependencies
+        run: dart pub get
+      - name: Run VM tests
+        run: |
+          dart pub global activate coverage
+          dart pub global run coverage:test_with_coverage
+          tail coverage/coverage.json
+      - name: Coverage report
+        uses: codecov/codecov-action@v3
+        with:
+          directory: ./coverage/
+          token: ${{ secrets.CODECOV_TOKEN }} # not required for public repos
+          #files: coverage/coverage.json #optional
+          #flags: unittests # optional
+          name: codecov-umbrella # optional
+          fail_ci_if_error: true # optional (default = false)
+          verbose: true # optional (default = false)
+
