@@ -61,3 +61,13 @@ jobs:
       - name: Run Chrome tests
         run: dart test --platform chrome --test-randomize-ordering-seed=random
         if: always() && steps.install.outcome == 'success'
+    steps:
+    - uses: actions/checkout@master
+    - uses: codecov/codecov-action@v3
+      with:
+        # token: ${{ secrets.CODECOV_TOKEN }} # not required for public repos
+        # files: ./coverage1.xml,./coverage2.xml # optional
+        #flags: unittests # optional
+        name: codecov-umbrella # optional
+        fail_ci_if_error: true # optional (default = false)
+        verbose: true # optional (default = false)
