@@ -1,7 +1,6 @@
 import 'package:finances/src/base/cumulate_value.dart';
-import 'package:finances/src/finance.dart';
-import 'package:test/test.dart';
 import 'package:finances/finance.dart';
+import 'package:test/test.dart';
 
 void main() {
   const periods = 70;

@@ -1,6 +1,5 @@
-import 'package:finances/src/finance.dart';
-import 'package:test/test.dart';
 import 'package:finances/finance.dart';
+import 'package:test/test.dart';
 
 void main() {
   // const tradingYear = Duration(days: 252);
