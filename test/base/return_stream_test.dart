@@ -1,6 +1,5 @@
-import 'package:finances/src/finance.dart';
-import 'package:test/test.dart';
 import 'package:finances/finance.dart';
+import 'package:test/test.dart';
 
 void main() {
   // const tradingYear = Duration(days: 252);
@@ -26,6 +25,10 @@ void main() {
         expect(
           returnStreamOne.cumulativeReturn.period,
           Duration(days: 3),
+        );
+        expect(
+          returnStreamVolCumulative.cumulativeReturn.nreturn,
+          closeTo(1.029996, 0.00001),
         );
       });
 

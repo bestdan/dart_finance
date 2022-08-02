@@ -1,19 +1,12 @@
 import 'package:finances/src/base/return.dart';
 
-/// [ReturnStreamType] indicates whethere the return stream is `incremental` with
-/// [Return]s in the `0.05` format and representing only their incremental effect
-/// or `cumulative` in the `1.05` format, representing all cumulative returns or balances.
+/// Indicates whether a [ReturnStream] is `incremental` or `cumulative`.
+///
+/// `incremental` streams have a `0.05` format and representing only their incremental effect
+/// `cumulative` streams have a `1.05` format, representing cumulative returns in sequence.
 enum ReturnStreamType { incremental, cumulative }
 
-/// [ReturnStream] is a vector of [Return]s which commong aggregating
-/// operations such as compounding and averaging can be performed on.
-///
-/// Getter [cumulativeReturnStream] converts from `incremental` to `cumulative`.
-/// Getter [incrementalReturnStream] converts from `cumulative` to `incremental`.
-/// If you have a series of balances/values, you can convert them to `incremental` returns.
-///
-/// `cumulativeReturn` returns a single [Return] variable for the whole period,
-/// where [cumulativeReturnStream] returns the stream of cumulativ values
+/// A vector of [Return]s enabling common aggregating operations such as compounding and averaging.
 class ReturnStream {
   final List<Return> nreturns;
   final ReturnStreamType type;
@@ -23,12 +16,14 @@ class ReturnStream {
     this.type,
   );
 
+  /// A factory constructor to assume daily returns from List<double>.
   factory ReturnStream.fromDoubles(
       List<double> dreturns, ReturnStreamType type) {
     final nreturns = dreturns.map((x) => Return(nreturn: x)).toList();
     return ReturnStream(nreturns, type);
   }
 
+  /// calculates the final cumulative return of the stream
   Return get cumulativeReturn {
     switch (type) {
       case ReturnStreamType.cumulative:
@@ -45,6 +40,7 @@ class ReturnStream {
     }
   }
 
+  /// converts from `incremental` to `cumulative`.
   ReturnStream get cumulativeReturnStream {
     switch (type) {
       case ReturnStreamType.cumulative:
@@ -68,6 +64,9 @@ class ReturnStream {
     }
   }
 
+  /// converts from `cumulative` to `incremental`.
+  ///
+  /// Useful if you have a series of balances/values too.
   ReturnStream get incrementalReturnStream {
     switch (type) {
       case ReturnStreamType.incremental:
