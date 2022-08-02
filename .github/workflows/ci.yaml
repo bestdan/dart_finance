@@ -74,8 +74,8 @@ jobs:
         name: Install dependencies
         run: dart pub get
       - name: Run VM tests
-        run: dart test --platform vm --test-randomize-ordering-seed=random --coverage
-      - name: gen report
+        run: dart test --platform vm --test-randomize-ordering-seed=random --coverage=./coverage
+      - name: Coverage report
         uses: codecov/codecov-action@v3
         with:
           directory: ./coverage/
