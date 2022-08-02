@@ -26,6 +26,10 @@ void main() {
           returnStreamOne.cumulativeReturn.period,
           Duration(days: 3),
         );
+        expect(
+          returnStreamVolCumulative.cumulativeReturn.nreturn,
+          closeTo(1.029996, 0.00001),
+        );
       });
 
       group('types: ', () {
