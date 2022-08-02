@@ -80,7 +80,7 @@ jobs:
       - name: Coverage report
         uses: codecov/codecov-action@v3
         with:
-          #directory: ./coverage/
+          directory: ./coverage/
           token: ${{ secrets.CODECOV_TOKEN }} # not required for public repos
           files: ./coverage/coverage.json #optional
           #flags: unittests # optional
