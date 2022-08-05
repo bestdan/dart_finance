@@ -1,8 +1,5 @@
-import 'dart:math';
-
 import 'package:finances/src/base/return_period.dart';
 import 'package:test/test.dart';
-import 'package:finances/finance.dart';
 
 void main() {
   group('ReturnPeriod', () {
