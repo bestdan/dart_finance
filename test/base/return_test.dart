@@ -53,6 +53,14 @@ void main() {
           closeTo(-0.0199, 0.0000001),
         );
       });
+      test('convenience function annualize works', () {
+        expect(
+          Return(nreturn: 0.27628156, period: Duration(days: tradingDays * 5))
+              .annualize
+              .nreturn,
+          closeTo(0.05, 0.00001),
+        );
+      });
     });
   });
 }

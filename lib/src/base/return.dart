@@ -2,18 +2,18 @@ import 'dart:core';
 import 'dart:math';
 
 const oneday = Duration(days: 1);
+const oneyear = Duration(days: 252);
 
 /// A core class for working with returns.
 class Return {
   /// The numeric return, expressed as `0.05` for a 5\% return.
   final double nreturn;
 
-  /// The period over which the return occured
+  /// The period over which the return occured. Defaults to one day, if not specified.
   final Duration period;
 
   /// default `false`: the calculation method of the return.
   /// Logarithmic if true, else Arithmetic.
-
   final bool isLog;
 
   Return({
@@ -24,8 +24,14 @@ class Return {
 
   /// Rescales the return up or down over a given time period.
   ///
-  /// Warning: scale up returns of less than a year can be very misleading.
+  /// Warning: scaling returns up can be misleading.
   Return scale({required Duration newPeriod}) {
+    double periodRatio = newPeriod.inSeconds / period.inSeconds;
+
+    if (periodRatio > 1.0) {
+      print('Warning: scaling returns up can be misleading.');
+    }
+
     final newReturn = (pow(1.0 + this.toArithmetic.nreturn,
                 newPeriod.inSeconds / period.inSeconds)
             .toDouble()) -
@@ -45,5 +51,9 @@ class Return {
     return this.isLog
         ? Return(nreturn: exp(this.nreturn) - 1.0, isLog: false)
         : this;
+  }
+
+  Return get annualize {
+    return scale(newPeriod: oneyear);
   }
 }
