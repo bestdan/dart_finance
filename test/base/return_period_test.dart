@@ -12,7 +12,7 @@ void main() {
 
       test('normal week', () {
         expect(
-          ReturnPeriod(
+          ReturnPeriod.fromDates(
             startDate: dateMon,
             endDate: dateFri,
           ).tradingPeriod,
@@ -21,21 +21,21 @@ void main() {
       });
       test('weekends have no trading days', () {
         expect(
-          ReturnPeriod(
+          ReturnPeriod.fromDates(
             startDate: dateMon,
             endDate: dateSat,
           ).tradingPeriod,
           Duration(days: 5),
         );
         expect(
-          ReturnPeriod(
+          ReturnPeriod.fromDates(
             startDate: dateMon,
             endDate: dateSun,
           ).tradingPeriod,
           Duration(days: 5),
         );
         expect(
-          ReturnPeriod(
+          ReturnPeriod.fromDates(
             startDate: dateMon,
             endDate: dateMon2,
           ).tradingPeriod,
@@ -44,7 +44,7 @@ void main() {
       });
       test('weekends have no trading days', () {
         expect(
-          ReturnPeriod(
+          ReturnPeriod.fromDates(
             startDate: dateSat,
             endDate: dateSun,
           ).tradingPeriod,
@@ -55,7 +55,7 @@ void main() {
     group('more than one full week', () {
       final startDate = DateTime(2022, 08, 08, 00, 00); // Monday
       final endDate = DateTime(2022, 08, 15, 00, 00); // Friday
-      final period = ReturnPeriod(
+      final period = ReturnPeriod.fromDates(
         startDate: startDate,
         endDate: endDate,
       );

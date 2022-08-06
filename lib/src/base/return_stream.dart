@@ -1,4 +1,5 @@
 import 'package:finances/src/base/return.dart';
+import 'package:finances/src/base/return_period.dart';
 
 /// Indicates whether a [ReturnStream] is `incremental` or `cumulative`.
 ///
@@ -33,9 +34,11 @@ class ReturnStream {
           final totalReturn = nreturns.fold(
                   1.0, (double p, Return c) => (p * (1 + c.nreturn))) -
               1.0;
-          final totalPeriod = nreturns.fold(
-              Duration(days: 0), (Duration p, Return c) => (p + c.period));
-          return Return(nreturn: totalReturn, period: totalPeriod);
+          final totalPeriod = nreturns.fold(Duration(days: 0),
+              (Duration p, Return c) => (p + c.returnPeriod.tradingPeriod));
+          return Return(
+              nreturn: totalReturn,
+              returnPeriod: ReturnPeriod(tradingPeriod: totalPeriod));
         }
     }
   }
@@ -56,8 +59,10 @@ class ReturnStream {
 
           for (var i = 0; i < nreturns.length; i++) {
             totalReturn = (totalReturn * (1.0 + nreturns[i].nreturn));
-            totalPeriod = totalPeriod + nreturns[i].period;
-            result[i] = Return(nreturn: totalReturn, period: totalPeriod);
+            totalPeriod = totalPeriod + nreturns[i].returnPeriod.tradingPeriod;
+            result[i] = Return(
+                nreturn: totalReturn,
+                returnPeriod: ReturnPeriod(tradingPeriod: totalPeriod));
           }
           return ReturnStream(result, ReturnStreamType.cumulative);
         }
@@ -83,14 +88,17 @@ class ReturnStream {
           for (var i = 0; i < nreturns.length; i++) {
             if (i == 0) {
               thisReturn = nreturns[i].nreturn - 1.0;
-              thisPeriod = nreturns[i].period;
+              thisPeriod = nreturns[i].returnPeriod.tradingPeriod;
             } else {
               thisReturn =
                   (nreturns[i].nreturn / nreturns[(i - 1)].nreturn) - 1.0;
-              thisPeriod = nreturns[i].period - nreturns[(i - 1)].period;
+              thisPeriod = nreturns[i].returnPeriod.tradingPeriod -
+                  nreturns[(i - 1)].returnPeriod.tradingPeriod;
             }
 
-            result[i] = Return(nreturn: thisReturn, period: thisPeriod);
+            result[i] = Return(
+                nreturn: thisReturn,
+                returnPeriod: ReturnPeriod(tradingPeriod: thisPeriod));
           }
           return ReturnStream(result, ReturnStreamType.incremental);
         }

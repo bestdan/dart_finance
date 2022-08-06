@@ -1,37 +1,35 @@
 import 'dart:core';
-import 'dart:math';
+import 'package:finances/src/base/calc_trading_period.dart';
+
+const oneday = Duration(days: 1);
+const oneReturnDay = ReturnPeriod(tradingPeriod: oneday);
+const oneyear = Duration(days: 252);
 
 /// ReturnPeriods are a denomination format that allow for easy
 /// conversion between [TradingPeriod]s and [CalendarPeriod]s.
 ///
 ///
 class ReturnPeriod {
+  final Duration tradingPeriod;
+
   /// When the period the return was generated begins
-  final DateTime startDate;
+  final DateTime? startDate;
 
   /// When the period the return was generated ends. Note it's exclusive,
   /// so M-F is 4 days, M-S is 5 days.
-  final DateTime endDate;
+  final DateTime? endDate;
 
-  ReturnPeriod({required this.startDate, required this.endDate})
-      : assert(endDate.difference(startDate) > Duration(seconds: 0));
+  const ReturnPeriod(
+      {required this.tradingPeriod, this.startDate, this.endDate});
 
-  Duration get calendarPeriod {
-    return endDate.difference(startDate);
-  }
+  ReturnPeriod.fromDates({required this.startDate, required this.endDate})
+      : tradingPeriod = calcTradingPeriod(startDate!, endDate!);
 
-  Duration get tradingPeriod {
-    // for each full week, subtract 2.
-    // for the remainder, find # of weekend days
-
-    int days = calendarPeriod.inDays;
-    //int numWeeks = (days / 7).floor();
-    int tradingWeekDays = days - 2 * ((days + startDate.weekday) ~/ 7);
-    final totalDays = tradingWeekDays +
-        (startDate.weekday == 7 ? 1 : 0) +
-        (endDate.weekday == 7 ? 1 : 0);
-
-    //adjust for starting and ending on a Sunday:
-    return Duration(days: totalDays);
+  Duration? get calendarPeriod {
+    if (endDate == null || startDate == null) {
+      //  TODO(dan): is it possible to construct?
+      return null;
+    } else
+      return endDate!.difference(startDate!);
   }
 }

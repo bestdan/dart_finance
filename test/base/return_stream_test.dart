@@ -10,8 +10,12 @@ void main() {
   final returnStreamVol = ReturnStream(
     [
       Return(nreturn: -0.01),
-      Return(nreturn: 0.02, period: Duration(days: 5)),
-      Return(nreturn: 0.02, period: Duration(days: 10)),
+      Return(
+          nreturn: 0.02,
+          returnPeriod: ReturnPeriod(tradingPeriod: Duration(days: 5))),
+      Return(
+          nreturn: 0.02,
+          returnPeriod: ReturnPeriod(tradingPeriod: Duration(days: 10))),
     ],
     ReturnStreamType.incremental,
   );
@@ -23,7 +27,7 @@ void main() {
         expect(
             returnStreamOne.cumulativeReturn.nreturn, closeTo(0.01, 0.000001));
         expect(
-          returnStreamOne.cumulativeReturn.period,
+          returnStreamOne.cumulativeReturn.returnPeriod.tradingPeriod,
           Duration(days: 3),
         );
         expect(
@@ -61,11 +65,14 @@ void main() {
         });
         test('cumulates time correctly', () {
           expect(
-              returnStreamVolCumulative.nreturns[0].period, Duration(days: 1));
+              returnStreamVolCumulative.nreturns[0].returnPeriod.tradingPeriod,
+              Duration(days: 1));
           expect(
-              returnStreamVolCumulative.nreturns[1].period, Duration(days: 6));
+              returnStreamVolCumulative.nreturns[1].returnPeriod.tradingPeriod,
+              Duration(days: 6));
           expect(
-              returnStreamVolCumulative.nreturns[2].period, Duration(days: 16));
+              returnStreamVolCumulative.nreturns[2].returnPeriod.tradingPeriod,
+              Duration(days: 16));
         });
       });
       group('incrementalReturnStream: ', () {
@@ -79,9 +86,10 @@ void main() {
               closeTo(returnStreamVol.nreturns[2].nreturn, 0.00001));
         });
         test('increments time correctly', () {
-          expect(irs.nreturns[0].period, Duration(days: 1));
-          expect(irs.nreturns[1].period, Duration(days: 5));
-          expect(irs.nreturns[2].period, Duration(days: 10));
+          expect(irs.nreturns[0].returnPeriod.tradingPeriod, Duration(days: 1));
+          expect(irs.nreturns[1].returnPeriod.tradingPeriod, Duration(days: 5));
+          expect(
+              irs.nreturns[2].returnPeriod.tradingPeriod, Duration(days: 10));
         });
       });
     });
