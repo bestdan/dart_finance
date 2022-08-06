@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:finances/src/base/finance_constants.dart';
 import 'package:test/test.dart';
 import 'package:finances/finance.dart';
 
@@ -64,7 +65,6 @@ void main() {
       });
       test('convenience function annualize works', () {
         expect(
-
           Return(
                   nreturn: 0.27628156,
                   returnPeriod: ReturnPeriod(
@@ -73,6 +73,23 @@ void main() {
               .nreturn,
           closeTo(0.05, 0.00001),
         );
+      });
+      group('using fromDates constructor: ', () {
+        final fiveYearReturn = Return.fromDates(
+          nreturn: 0.27628156,
+          startDate: DateTime(2000, 01, 01),
+          endDate: DateTime(2004, 12, 31),
+        );
+        test('returns correct tradingPeriod', () {
+          expect(
+              fiveYearReturn.returnPeriod.tradingPeriod.inDays,
+              (FiConstants.oneTradingYear.tradingPeriod * 5 +
+                      FiConstants.oneTradingDay.tradingPeriod)
+                  .inDays);
+        });
+        test('annualized correctly', () {
+          expect(fiveYearReturn.annualize.nreturn, closeTo(0.05, 0.00001));
+        });
       });
     });
   });

@@ -1,9 +1,10 @@
+import 'package:finances/src/base/finance_constants.dart';
 import 'package:finances/src/base/return_period.dart';
 import 'package:test/test.dart';
 
 void main() {
   group('ReturnPeriod', () {
-    group('below one full week', () {
+    group('below one full week: ', () {
       final dateMon = DateTime(2022, 08, 08, 00, 00);
       final dateMon2 = DateTime(2022, 08, 15, 00, 00);
       final dateFri = DateTime(2022, 08, 12, 00, 00);
@@ -52,7 +53,7 @@ void main() {
         );
       });
     });
-    group('more than one full week', () {
+    group('more than one full week: ', () {
       final startDate = DateTime(2022, 08, 08, 00, 00); // Monday
       final endDate = DateTime(2022, 08, 15, 00, 00); // Friday
       final period = ReturnPeriod.fromDates(
@@ -64,6 +65,20 @@ void main() {
           period.tradingPeriod,
           Duration(days: 5),
         );
+      });
+      group('more than a year: ', () {
+        final startDate = DateTime(2000, 01, 01);
+        final endDate = DateTime(2005, 01, 01);
+        final period = ReturnPeriod.fromDates(
+          startDate: startDate,
+          endDate: endDate,
+        );
+        test('constants and constructor give same results', () {
+          expect(
+            period.tradingPeriod,
+            FiConstants.oneTradingYear.tradingPeriod * 5,
+          );
+        });
       });
     });
   });
