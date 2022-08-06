@@ -1,18 +1,24 @@
 import 'dart:math';
 
+import 'package:finances/src/base/finance_constants.dart';
 import 'package:test/test.dart';
 import 'package:finances/finance.dart';
 
 void main() {
   const int tradingDays = 252;
-  final ReturnZero = Return(nreturn: 0, period: Duration(days: 252));
+  final ReturnZero = Return(
+      nreturn: 0,
+      returnPeriod: ReturnPeriod(tradingPeriod: Duration(days: 252)));
   group("Return: ", () {
     group('isLog functionality: ', () {
       double baseReturn = 2.40;
-      final returnArith =
-          Return(nreturn: baseReturn, period: Duration(days: 252));
-      final returnLog =
-          Return(nreturn: 0.74, period: Duration(days: 252), isLog: true);
+      final returnArith = Return(
+          nreturn: baseReturn,
+          returnPeriod: ReturnPeriod(tradingPeriod: Duration(days: 252)));
+      final returnLog = Return(
+          nreturn: 0.74,
+          returnPeriod: ReturnPeriod(tradingPeriod: Duration(days: 252)),
+          isLog: true);
 
       test('conversion to log works', (() {
         expect(returnArith.toLog.isLog, true);
@@ -30,8 +36,10 @@ void main() {
       });
 
       test('postive returns scale', () {
-        final baseReturn =
-            Return(nreturn: 0.01, period: Duration(days: tradingDays));
+        final baseReturn = Return(
+            nreturn: 0.01,
+            returnPeriod:
+                ReturnPeriod(tradingPeriod: Duration(days: tradingDays)));
         expect(
           baseReturn.scale(newPeriod: Duration(days: 126)).nreturn,
           closeTo(0.00498756, 0.00001),
@@ -42,8 +50,10 @@ void main() {
         );
       });
       test('negative returns scale', () {
-        final baseReturn =
-            Return(nreturn: -0.01, period: Duration(days: tradingDays));
+        final baseReturn = Return(
+            nreturn: -0.01,
+            returnPeriod:
+                ReturnPeriod(tradingPeriod: Duration(days: tradingDays)));
         expect(
           baseReturn.scale(newPeriod: Duration(days: 126)).nreturn,
           closeTo(-0.00501256, 0.00001),
@@ -55,11 +65,31 @@ void main() {
       });
       test('convenience function annualize works', () {
         expect(
-          Return(nreturn: 0.27628156, period: Duration(days: tradingDays * 5))
+          Return(
+                  nreturn: 0.27628156,
+                  returnPeriod: ReturnPeriod(
+                      tradingPeriod: Duration(days: tradingDays * 5)))
               .annualize
               .nreturn,
           closeTo(0.05, 0.00001),
         );
+      });
+      group('using fromDates constructor: ', () {
+        final fiveYearReturn = Return.fromDates(
+          nreturn: 0.27628156,
+          startDate: DateTime(2000, 01, 01),
+          endDate: DateTime(2004, 12, 31),
+        );
+        test('returns correct tradingPeriod', () {
+          expect(
+              fiveYearReturn.returnPeriod.tradingPeriod.inDays,
+              (FiConstants.oneTradingYear.tradingPeriod * 5 +
+                      FiConstants.oneTradingDay.tradingPeriod)
+                  .inDays);
+        });
+        test('annualized correctly', () {
+          expect(fiveYearReturn.annualize.nreturn, closeTo(0.05, 0.00001));
+        });
       });
     });
   });

@@ -1,10 +1,11 @@
 import 'dart:math';
 import 'package:finances/finance.dart';
-import 'package:finances/src/base/return.dart';
 
 void main() {
   // Return
-  final yearReturn = Return(nreturn: 0.05, period: oneyear);
+  final yearReturn = Return(
+      nreturn: 0.05,
+      returnPeriod: ReturnPeriod(tradingPeriod: Duration(days: 252 * 3)));
 
   // Five year return, annualized
   print(yearReturn.annualize.nreturn);

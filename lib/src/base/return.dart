@@ -1,8 +1,9 @@
 import 'dart:core';
 import 'dart:math';
 
-const oneday = Duration(days: 1);
-const oneyear = Duration(days: 252);
+import 'package:finances/src/base/finance_constants.dart';
+import 'package:finances/src/base/return_period.dart';
+import 'package:finances/src/base/calc_trading_period.dart';
 
 /// A core class for working with returns.
 class Return {
@@ -10,7 +11,7 @@ class Return {
   final double nreturn;
 
   /// The period over which the return occured. Defaults to one day, if not specified.
-  final Duration period;
+  final ReturnPeriod returnPeriod;
 
   /// default `false`: the calculation method of the return.
   /// Logarithmic if true, else Arithmetic.
@@ -19,24 +20,37 @@ class Return {
   Return({
     required this.nreturn,
     this.isLog = false,
-    this.period = oneday,
+    this.returnPeriod = FiConstants.oneTradingDay,
   });
+
+  Return.fromDates(
+      {required this.nreturn,
+      this.isLog = false,
+      required DateTime startDate,
+      required DateTime endDate})
+      : returnPeriod =
+            ReturnPeriod(tradingPeriod: calcTradingPeriod(startDate, endDate));
 
   /// Rescales the return up or down over a given time period.
   ///
   /// Warning: scaling returns up can be misleading.
   Return scale({required Duration newPeriod}) {
-    double periodRatio = newPeriod.inSeconds / period.inSeconds;
+
+    double periodRatio =
+        newPeriod.inSeconds / returnPeriod.tradingPeriod.inSeconds;
 
     if (periodRatio > 1.0) {
       print('Warning: scaling returns up can be misleading.');
     }
 
     final newReturn = (pow(1.0 + this.toArithmetic.nreturn,
-                newPeriod.inSeconds / period.inSeconds)
+                newPeriod.inSeconds / returnPeriod.tradingPeriod.inSeconds)
             .toDouble()) -
         1.0;
-    return Return(nreturn: newReturn, period: newPeriod, isLog: false);
+    return Return(
+        nreturn: newReturn,
+        returnPeriod: ReturnPeriod(tradingPeriod: newPeriod),
+        isLog: false);
   }
 
   /// converts arithmetic return to log
@@ -54,6 +68,8 @@ class Return {
   }
 
   Return get annualize {
-    return scale(newPeriod: oneyear);
+
+    return scale(newPeriod: FiConstants.oneTradingYear.tradingPeriod);
+
   }
 }
