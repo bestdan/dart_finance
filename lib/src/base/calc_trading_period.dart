@@ -5,7 +5,7 @@ Duration calcTradingPeriod(DateTime startDate, DateTime endDate) {
   // for the remainder, find # of weekend days
 
   int days = endDate.difference(startDate).inDays;
-  //int numWeeks = (days / 7).floor();
+
   int tradingWeekDays = days - 2 * ((days + startDate.weekday) ~/ 7);
   final totalDays = tradingWeekDays +
       (startDate.weekday == 7 ? 1 : 0) +
