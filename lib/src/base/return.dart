@@ -1,5 +1,6 @@
 import 'dart:core';
 import 'dart:math';
+
 import 'package:finances/src/base/finance_constants.dart';
 import 'package:finances/src/base/return_period.dart';
 import 'package:finances/src/base/calc_trading_period.dart';
@@ -34,6 +35,7 @@ class Return {
   ///
   /// Warning: scaling returns up can be misleading.
   Return scale({required Duration newPeriod}) {
+
     double periodRatio =
         newPeriod.inSeconds / returnPeriod.tradingPeriod.inSeconds;
 
@@ -66,6 +68,8 @@ class Return {
   }
 
   Return get annualize {
+
     return scale(newPeriod: FiConstants.oneTradingYear.tradingPeriod);
+
   }
 }

@@ -64,6 +64,7 @@ void main() {
       });
       test('convenience function annualize works', () {
         expect(
+
           Return(
                   nreturn: 0.27628156,
                   returnPeriod: ReturnPeriod(
