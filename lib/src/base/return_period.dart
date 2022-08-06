@@ -1,10 +1,6 @@
 import 'dart:core';
 import 'package:finances/src/base/calc_trading_period.dart';
 
-const oneday = Duration(days: 1);
-const oneReturnDay = ReturnPeriod(tradingPeriod: oneday);
-const oneyear = Duration(days: 252);
-
 /// ReturnPeriods are a denomination format that allow for easy
 /// conversion between [TradingPeriod]s and [CalendarPeriod]s.
 ///
@@ -27,7 +23,7 @@ class ReturnPeriod {
 
   Duration? get calendarPeriod {
     if (endDate == null || startDate == null) {
-      //  TODO(dan): is it possible to construct?
+      //  TODO(dpe): is it possible to construct?
       return null;
     } else
       return endDate!.difference(startDate!);

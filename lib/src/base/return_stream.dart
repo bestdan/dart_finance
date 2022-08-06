@@ -50,7 +50,7 @@ class ReturnStream {
         return this;
       case ReturnStreamType.incremental:
         {
-          // #TODO: could be faster?
+          // #TODO(dpe): could be faster?
           var totalReturn = 1.0;
           var totalPeriod = Duration(days: 0);
           var result = List<Return>.generate(
@@ -78,7 +78,7 @@ class ReturnStream {
         return this;
       case ReturnStreamType.cumulative:
         {
-          // #TODO: could be faster?
+          // #TODO(dpe): could be faster?
           var thisReturn = 0.0;
           var thisPeriod = Duration.zero;
           var result = List<Return>.generate(

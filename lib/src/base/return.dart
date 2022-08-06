@@ -1,5 +1,6 @@
 import 'dart:core';
 import 'dart:math';
+import 'package:finances/src/base/finance_constants.dart';
 import 'package:finances/src/base/return_period.dart';
 import 'package:finances/src/base/calc_trading_period.dart';
 
@@ -18,7 +19,7 @@ class Return {
   Return({
     required this.nreturn,
     this.isLog = false,
-    this.returnPeriod = oneReturnDay,
+    this.returnPeriod = FiConstants.oneTradingDay,
   });
 
   Return.fromDates(
@@ -65,6 +66,6 @@ class Return {
   }
 
   Return get annualize {
-    return scale(newPeriod: oneyear);
+    return scale(newPeriod: FiConstants.oneTradingYear.tradingPeriod);
   }
 }
